@@ -26,3 +26,9 @@ pub async fn ping_response() -> impl Responder {
         msg: "pong".to_string(),
     })
 }
+
+pub async fn not_found_handler() -> impl Responder {
+    HttpResponse::NotFound().json(ErrorResponse {
+        error: "Resource not found".to_string(),
+    })
+}

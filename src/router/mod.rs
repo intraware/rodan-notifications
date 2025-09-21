@@ -1,23 +1,27 @@
-#[path = "handlers/sse.rs"]
-mod sse;
+mod handlers;
 
-use crate::{responses::ping_response, utils::middlewares, values};
+use super::router::handlers::{ingester, sse};
+use crate::{
+    responses::{not_found_handler, ping_response},
+    utils::middlewares,
+    values,
+};
 use actix_web::{middleware::from_fn, web};
 
 pub fn create_app(cfg: &mut web::ServiceConfig) {
     let config = values::config::get_config();
-    if config.app.auth_required {
-        cfg.service(
-            web::scope("/api")
-                .wrap(from_fn(middlewares::auth::auth_middleware))
-                .route("/ping", web::get().to(ping_response))
-                .route("/notify", web::get().to(sse::sse_handler)),
-        );
-    } else {
-        cfg.service(
-            web::scope("/api")
-                .route("/ping", web::get().to(ping_response))
-                .route("/notify", web::get().to(sse::sse_handler)),
-        );
+    let mut api_scope = web::scope("/api")
+        .route("/ping", web::get().to(ping_response))
+        .route("/notify", web::get().to(sse::sse_handler));
+    if let Some(events) = &config.app.events {
+        if let Some(http) = &events.http {
+            api_scope = api_scope.route(&http.endpoint, web::post().to(ingester::events_ingestor))
+        }
     }
+    if config.app.auth_required {
+        cfg.service(api_scope.wrap(from_fn(middlewares::auth::auth_middleware)));
+    } else {
+        cfg.service(api_scope);
+    }
+    cfg.default_service(web::route().to(not_found_handler));
 }
