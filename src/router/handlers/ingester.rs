@@ -1,5 +1,14 @@
-use actix_web::{HttpRequest, HttpResponse, Responder};
+use crate::values::events::push_event;
+use actix_web::{HttpResponse, Responder, web};
 
-pub async fn events_ingestor(_req: HttpRequest) -> impl Responder {
-    HttpResponse::Ok().body("event ingestor")
+#[derive(serde::Deserialize)]
+pub struct EventsPayload {
+    pub events: Vec<String>,
+}
+
+pub async fn events_ingestor(payload: web::Json<EventsPayload>) -> impl Responder {
+    for event in &payload.events {
+        push_event(event.clone());
+    }
+    HttpResponse::Ok().body("Events ingested")
 }

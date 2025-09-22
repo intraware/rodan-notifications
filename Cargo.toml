@@ -12,5 +12,7 @@ env_logger = "0.11.8"
 futures-util = "0.3.31"
 jsonwebtoken = "9.3.1"
 serde = "1.0.225"
+sha2 = "0.10.9"
+sha256 = "1.6.0"
 tokio = { version = "1.47.0", features = ["fs", "macros"] }
 toml = "0.9.7"

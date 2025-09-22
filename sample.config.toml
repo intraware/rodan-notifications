@@ -4,17 +4,17 @@ port = 8000
 production = true
 
 [server.security]
-jwt-secret = "testing"
+jwt-secret = "testing1234555"
 
 [app]
 auth-required = false
 
-[app.events.kafka]
-brokers = ["kafka1:9092", "kafka2:9092"]
-topic = "microservice-events"
-group_id = "rodan-sse-group"
+# [app.events.kafka]
+# brokers = ["kafka1:9092", "kafka2:9092"]
+# topic = "microservice-events"
+# group_id = "rodan-sse-group"
 
 # or, alternatively:
-# [app.events.http] # This endpoint only takes post request
-# endpoint = "/events/injest"
+[app.events.http] # This endpoint only takes post request
+endpoint = "/events/ingest" # will resolve to /api/events/ingest
 # api-key = "some-value which will be converted to sha256 and eval"
