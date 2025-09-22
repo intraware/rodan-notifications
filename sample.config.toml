@@ -8,6 +8,8 @@ jwt-secret = "testing1234555"
 
 [app]
 auth-required = false
+event-logging = true
+event-log-file = "events.log"
 
 # [app.events.kafka]
 # brokers = ["kafka1:9092", "kafka2:9092"]

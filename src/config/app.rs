@@ -6,6 +6,10 @@ pub struct AppConfig {
     #[serde(rename = "auth-required")]
     pub auth_required: bool,
     pub events: Option<EventsConfig>,
+    #[serde(rename = "event-logging")]
+    pub event_logging: bool,
+    #[serde(rename = "event-log-file")]
+    pub events_logfile: Option<String>,
 }
 
 #[derive(Default, Debug, Deserialize)]
@@ -57,6 +61,9 @@ impl AppConfig {
     pub fn validate(&self) -> Result<(), String> {
         if let Some(events) = &self.events {
             events.validate()?;
+        }
+        if self.event_logging && !self.events_logfile.is_some() {
+            return Err("app: event-logging is enabled but no log file is given".into());
         }
         Ok(())
     }

@@ -1,21 +1,15 @@
-use std::sync::{LazyLock, RwLock};
+use crate::values::config::get_config;
+use once_cell::sync::Lazy;
+use tokio::sync::broadcast;
 
-use crate::events::EventQueue;
-
-pub static GLOBAL_EVENT_QUEUE: LazyLock<RwLock<EventQueue<String>>> =
-    LazyLock::new(|| RwLock::new(EventQueue::new(100)));
+pub static EVENT_CHANNEL: Lazy<broadcast::Sender<String>> = Lazy::new(|| {
+    let (tx, _) = broadcast::channel(100);
+    tx
+});
 
 pub fn push_event(event: String) {
-    let mut queue = GLOBAL_EVENT_QUEUE.write().unwrap();
-    queue.push(event);
-}
-
-pub fn pop_event() -> Option<String> {
-    let mut queue = GLOBAL_EVENT_QUEUE.write().unwrap();
-    queue.pop()
-}
-
-pub fn is_event() -> bool {
-    let queue = GLOBAL_EVENT_QUEUE.read().unwrap();
-    !queue.is_empty()
+    let _ = EVENT_CHANNEL.send(event);
+    if get_config().app.event_logging {
+        // log events
+    }
 }
