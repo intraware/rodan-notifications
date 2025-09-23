@@ -10,6 +10,8 @@ jwt-secret = "testing1234555"
 auth-required = false
 event-logging = true
 event-log-file = "events.log"
+event-flush-duration = "10m"
+event-log-rotation = "8h"
 
 # [app.events.kafka]
 # brokers = ["kafka1:9092", "kafka2:9092"]
@@ -17,6 +19,10 @@ event-log-file = "events.log"
 # group_id = "rodan-sse-group"
 
 # or, alternatively:
-[app.events.http] # This endpoint only takes post request
-endpoint = "/events/ingest" # will resolve to /api/events/ingest
-# api-key = "some-value which will be converted to sha256 and eval"
+[app.events.http]
+# Endpoint for HTTP events ingestion; will resolve to `/api/events/ingest`
+endpoint = "/events/ingest"
+# API key to authenticate incoming requests
+# The service will hash this automatically on startup
+# Use header: x-api-key
+api-key = "some-value"

@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
+use std::time::Duration;
 
 #[derive(Default, Debug, Deserialize)]
 pub struct AppConfig {
@@ -8,8 +9,14 @@ pub struct AppConfig {
     pub events: Option<EventsConfig>,
     #[serde(rename = "event-logging")]
     pub event_logging: bool,
+    #[serde(rename = "event-flush-duration")]
+    #[serde(with = "humantime_serde")]
+    pub event_flush_duration: Option<Duration>,
     #[serde(rename = "event-log-file")]
     pub events_logfile: Option<String>,
+    #[serde(rename = "event-log-rotation")]
+    #[serde(with = "humantime_serde")]
+    pub event_log_rotation: Option<Duration>,
 }
 
 #[derive(Default, Debug, Deserialize)]

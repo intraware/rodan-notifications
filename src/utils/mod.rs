@@ -4,3 +4,5 @@ mod logging;
 
 pub mod middlewares;
 pub mod values;
+pub use logging::flush_events;
+pub use logging::rotate_logs;
