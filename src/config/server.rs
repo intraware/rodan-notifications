@@ -27,6 +27,9 @@ impl ServerConfig {
         if self.cors_url.is_empty() {
             return Err("server.cors-url must contain at least one entry".into());
         }
+        if self.production && self.cors_url.len() == 1 && self.cors_url[0] == "*" {
+            return Err("server.cors-url cannot be '*' in production".into());
+        }
         self.security.validate()?;
         Ok(())
     }
