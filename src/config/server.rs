@@ -5,6 +5,8 @@ pub struct ServerConfig {
     pub host: String,
     pub port: u32,
     pub production: bool,
+    #[serde(rename = "cors-url")]
+    pub cors_url: Vec<String>,
     pub security: self::SecurityConfig,
 }
 
@@ -21,6 +23,9 @@ impl ServerConfig {
         }
         if self.port == 0 {
             return Err("server.port must be greater than 0".into());
+        }
+        if self.cors_url.is_empty() {
+            return Err("server.cors-url must contain at least one entry".into());
         }
         self.security.validate()?;
         Ok(())

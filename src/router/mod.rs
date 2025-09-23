@@ -26,20 +26,30 @@ pub fn create_app(cfg: &mut web::ServiceConfig) {
             cfg.service(
                 api_scope
                     .wrap(from_fn(middlewares::auth::auth_middleware))
-                    .wrap(from_fn(middlewares::log::log_middleware)),
+                    .wrap(from_fn(middlewares::log::log_middleware))
+                    .wrap(middlewares::cors::cors_middleware()),
             );
         } else {
             cfg.service(
                 api_scope
                     .wrap(from_fn(middlewares::auth::auth_middleware))
-                    .wrap(Logger::default()),
+                    .wrap(Logger::default())
+                    .wrap(middlewares::cors::cors_middleware()),
             );
         }
     } else {
         if config.server.production {
-            cfg.service(api_scope.wrap(from_fn(middlewares::log::log_middleware)));
+            cfg.service(
+                api_scope
+                    .wrap(from_fn(middlewares::log::log_middleware))
+                    .wrap(middlewares::cors::cors_middleware()),
+            );
         } else {
-            cfg.service(api_scope.wrap(Logger::default()));
+            cfg.service(
+                api_scope
+                    .wrap(Logger::default())
+                    .wrap(middlewares::cors::cors_middleware()),
+            );
         }
     }
     cfg.default_service(web::route().to(not_found_handler));

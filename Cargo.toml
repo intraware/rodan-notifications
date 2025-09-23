@@ -6,6 +6,7 @@ authors = ["intraware"]
 description = "A microservice for rodan"
 
 [dependencies]
+actix-cors = "0.7.1"
 actix-web = "4.11.0"
 arc-swap = "1.7.1"
 chrono = "0.4.42"

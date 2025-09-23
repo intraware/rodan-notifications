@@ -2,6 +2,7 @@
 host = "0.0.0.0"
 port = 8000
 production = true
+cors-url = ["*"]
 
 [server.security]
 jwt-secret = "testing1234555"
