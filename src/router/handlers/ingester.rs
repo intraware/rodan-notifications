@@ -8,7 +8,7 @@ pub struct EventsPayload {
 
 pub async fn events_ingestor(payload: web::Json<EventsPayload>) -> impl Responder {
     for event in &payload.events {
-        push_event(event.clone());
+        push_event(event.clone()).await;
     }
     HttpResponse::Ok().body("Events ingested")
 }
