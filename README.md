@@ -1,6 +1,14 @@
 # rodan-sse
-A Server Sent Event based microservice for rodan with support for notifications and live leaderboard updates
 
-### TODO:
-* Keeping track of old events(so client will send the last time it recieved an event and then get the list of events)
-* Integrate kafka
+A **Server-Sent Events (SSE)** microservice for Rodan, designed to support **notifications** and **live leaderboard updates**.
+
+## Features / Work Done
+
+* Fully implemented and production-ready SSE service.  
+* Events are treated as **fire-and-forget**; no WAL or persistent storage is used.  
+* Uses `tokio::sync::broadcast` for efficient **real-time notifications**.  
+
+## Integration
+
+* Integrated with **rodan-core** and **rodan-admin** to ensure compatibility and correctness.  
+

@@ -1,6 +1,6 @@
 [package]
 name = "rodan-sse"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2024"
 authors = ["intraware"]
 description = "A microservice for rodan"
@@ -9,7 +9,7 @@ description = "A microservice for rodan"
 actix-cors = "0.7.1"
 actix-web = "4.11.0"
 arc-swap = "1.7.1"
-chrono = "0.4.42"
+chrono = { version = "0.4.42", features = ["serde"] }
 env_logger = "0.11.8"
 futures-util = "0.3.31"
 humantime-serde = "1.1.1"
@@ -23,3 +23,11 @@ sha2 = "0.10.9"
 sha256 = "1.6.0"
 tokio = { version = "1.47.0", features = ["fs", "macros"] }
 toml = "0.9.7"
+
+[dev-dependencies]
+serial_test = "2"
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1.47.0", features = ["full"] }
+serde_json = "1.0.145"
+sha2 = "0.10.9"
+hex = "0.4"

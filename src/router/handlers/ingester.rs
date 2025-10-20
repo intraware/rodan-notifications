@@ -1,9 +1,5 @@
-use crate::{
-    responses::types,
-    values::{config::get_config, events::push_event},
-};
+use crate::{responses::types, utils::events::push_event, values::config::get_config};
 use actix_web::{HttpResponse, Responder, web};
-use sha2::{Digest, Sha256};
 
 #[derive(serde::Deserialize)]
 pub struct EventsPayload {
@@ -34,10 +30,7 @@ pub async fn events_ingestor(
     if let Some(hashed_api_key) = &http_cfg.hashed_api_key {
         let api_key_header = req.headers().get("x-api-key").and_then(|v| v.to_str().ok());
         let valid = if let Some(api_key) = api_key_header {
-            let mut hasher = Sha256::new();
-            hasher.update(api_key.as_bytes());
-            let hash = format!("{:x}", hasher.finalize());
-            &hash == hashed_api_key
+            api_key == hashed_api_key
         } else {
             false
         };
