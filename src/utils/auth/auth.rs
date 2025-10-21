@@ -2,7 +2,7 @@ use crate::values;
 use jsonwebtoken::{Algorithm, DecodingKey, TokenData, Validation, decode, errors::Error};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Claims {
     pub user_id: u64,
     pub username: String,
