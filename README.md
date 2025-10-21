@@ -1,6 +1,6 @@
-# rodan-sse
+# rodan-noitifications
 
-A **Server-Sent Events (SSE)** microservice for Rodan, designed to support **notifications** and **live leaderboard updates**.
+A **Server-Sent Events (SSE)** microservice for Rodan, designed to support **notifications**.
 
 ## Features / Work Done
 
