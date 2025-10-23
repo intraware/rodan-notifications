@@ -1,4 +1,4 @@
-# rodan-noitifications
+# rodan-notifications
 
 A **Server-Sent Events (SSE)** microservice for Rodan, designed to support **notifications**.
 
